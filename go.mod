@@ -1,4 +1,4 @@
-module github.com/MamontModesttg-bot-passwords-for_VK
+module github.com/MamontModest/bot_for_vk
 
 go 1.20
 

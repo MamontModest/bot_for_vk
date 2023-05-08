@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/MamontModesttg-bot-passwords-for_VK/src/bd"
+	"github.com/MamontModest/bot_for_vk/src/bd"
 )
 
 func main() {
