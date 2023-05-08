@@ -13,6 +13,12 @@ services:
       - enrollment
     environment:
       - TOKEN=6101250366:AAFd8UZBbg2pTv8ic1KTRTMo77vRdluQFyg
+      - HOST=db
+      - PORT=5432
+      - USER=postgres
+      - PASSWORD=password
+      - DBNAME=postgres
+      - SSLMODE=disable
 
   db:
     container_name: db
