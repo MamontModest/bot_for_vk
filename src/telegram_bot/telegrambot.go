@@ -29,7 +29,6 @@ func TelegramBot() {
 	LastUserCommand := make(model.LastUserCommand)
 
 	for update := range updates {
-		fmt.Println(update.Message.Chat)
 		if update.Message == nil {
 			continue
 		}
