@@ -9,25 +9,18 @@ services:
       - db
     links:
       - db
-    networks:
-      - enrollment
     environment:
-      - TOKEN=6101250366:AAFd8UZBbg2pTv8ic1KTRTMo77vRdluQFyg
-      - HOST=db
-      - PORT=5432
-      - USER=postgres
-      - PASSWORD=password
-      - DBNAME=postgres
-      - SSLMODE=disable
+      TOKEN: 6101250366:AAFd8UZBbg2pTv8ic1KTRTMo77vRdluQFyg
+      HOST: db
+      PORT: 5432
+      USER: postgres
+      POSTGRES_PASSWORD: password
+      DBNAME: postgres
+      SSLMODE: disable
 
   db:
     container_name: db
     image: postgres:15.2-alpine
     environment:
-      - POSTGRES_PASSWORD=password
-    networks:
-      - enrollment
+      - POSTGRES_PASSWORD:password
 
-networks:
-  enrollment:
-    driver: bridge

@@ -6,9 +6,16 @@ import (
 	"github.com/MamontModest/bot_for_vk/model"
 	_ "github.com/lib/pq"
 	"log"
+	"os"
 )
 
-var dbInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", "localhost", "5432", "postgres", "QWertas1122", "bot_vk", "disable")
+var host = os.Getenv("LOCALHOST")
+var port = os.Getenv("PORT")
+var user = os.Getenv("USER")
+var password = os.Getenv("POSTGRES_PASSWORD")
+var dbname = os.Getenv("DBNAME")
+var sslmode = os.Getenv("SSLMODE")
+var dbInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", host, port, user, password, dbname, sslmode)
 
 func CreateTables() error {
 
@@ -22,6 +29,7 @@ func CreateTables() error {
 		return err
 	}
 	log.Println("Created database users!!")
+
 	return nil
 }
 
@@ -31,7 +39,6 @@ func createConnection() (*sql.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	err = db.Ping()
 
 	if err != nil {
@@ -47,6 +54,7 @@ func CreatePassword(u *model.User) error {
 	if err != nil {
 		return err
 	}
+	defer db.Close()
 	if _, err := db.Query(`INSERT INTO users(ID, SERVICE, LOGIN, PASSWORD) values ($1, $2, $3, $4);`, u.Uid, u.Service, u.Login, u.Password); err != nil {
 		log.Println("Create service error", err, u.Uid)
 		return err
@@ -59,6 +67,7 @@ func DeletePassword(u *model.User) error {
 	if err != nil {
 		return err
 	}
+	defer db.Close()
 	if _, err := db.Query(`DELETE FROM users where ID=$1 and SERVICE=$2;`, u.Uid, u.Service); err != nil {
 		log.Println("Delete service error", err, u.Uid)
 		return err
@@ -71,6 +80,7 @@ func SearchPassword(u *model.User) error {
 	if err != nil {
 		return err
 	}
+	defer db.Close()
 	if err := db.QueryRow(
 		`SELECT LOGIN, PASSWORD FROM users where ID=$1 and SERVICE=$2;`,
 		u.Uid, u.Service).Scan(&u.Login, &u.Password); err != nil {
